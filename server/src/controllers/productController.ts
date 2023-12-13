@@ -1,15 +1,6 @@
 import { pool } from "../server";
 import { Request, Response } from "express";
-import { RowDataPacket } from "mysql2";
-
-interface IProduct extends RowDataPacket {
-  id: number;
-  product_name: string;
-  product_description: string;
-  price: number;
-  quantity: number;
-  image: any;
-}
+import { IProduct } from "../types/I_Product";
 
 interface ICount {
   count: number;
@@ -21,7 +12,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
     const { page, limit } = req.query;
     const queryLimit = limit ? parseInt(limit as string) : 10;
     const currentPage = page ? parseInt(page as string) : 1;
-    const sql = "SELECT * FROM products ORDER BY price DESC LIMIT ? OFFSET ?";
+    const sql = "SELECT * FROM products WHERE quantity > 0 ORDER BY price DESC LIMIT ? OFFSET ?";
     const [result] = await pool.query(sql, [queryLimit, (currentPage - 1) * queryLimit]);
 
     const sql2 = "SELECT COUNT(*) as count FROM products";

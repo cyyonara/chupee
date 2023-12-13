@@ -69,7 +69,7 @@ const Signup: React.FC = () => {
     });
 
   useEffect(() => {
-    document.title = "Sign up";
+    document.title = "Signup - Chupee";
   }, []);
 
   if (auth) return <Navigate to="/" />;

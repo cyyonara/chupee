@@ -43,7 +43,7 @@ const Product: React.FC = () => {
         setQuantity(0);
       }
     }
-  }, [id]);
+  }, [id, isSuccess]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,7 +52,7 @@ const Product: React.FC = () => {
   }, [isSuccess]);
 
   return (
-    <>
+    <React.Fragment>
       <div className="flex flex-col">
         <Header />
         <AnimatePresence>
@@ -65,7 +65,7 @@ const Product: React.FC = () => {
         </AnimatePresence>
         <main className="flex flex-col flex-1 text-c-black bg-blue-gray-50 lg:py-6 lg:px-12">
           <div
-            className="flex flex-col lg:flex-row lg:p-4 gap-x-20 mx-auto max-w-[1400px]"
+            className="flex flex-col w-full lg:flex-row lg:p-4 gap-x-20 mx-auto max-w-[1400px]"
             style={{ backgroundColor: isLoading ? "transparent" : "white" }}
           >
             {isLoading && <Spinner color="green" className="m-auto h-10 w-10" />}
@@ -77,11 +77,11 @@ const Product: React.FC = () => {
                 >
                   <img
                     src={generateURL(data.data.image.data)}
-                    alt={data?.data.product_name}
+                    alt={data.data.product_name}
                     className="object-contain object-center cursor-pointer"
                   />
                 </div>
-                <div className="flex flex-col mt-8 lg:mt-0 lg:py-6 px-4 sm:px-8 md:px-12">
+                <div className="flex lg:flex-1 flex-col mt-8 lg:mt-0 lg:py-6 px-4 sm:px-8 md:px-12">
                   <h3 className="text-lg sm:text-xl md:text-2xl">{data.data.product_name}</h3>
                   <h2 className="mt-2 text-green-600 text-lg sm:text-xl md:text-2xl bg-green-50/60 p-2">
                     {currenyFormatter(parseInt(data.data.price))}
@@ -124,7 +124,7 @@ const Product: React.FC = () => {
                       <span className="text-sm leading-none">Add to cart</span>
                     </button>
                     <button
-                      className="bg-green-600 text-white px-7 py-2 duration-150 hover:bg-green-500"
+                      className="bg-green-600 text-white px-7 py-2 duration-150 hover:bg-green-500 disabled:bg-gray-500"
                       disabled={data.data.quantity === 0}
                       onClick={handleCheckout}
                     >
@@ -139,7 +139,7 @@ const Product: React.FC = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 

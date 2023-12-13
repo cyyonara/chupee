@@ -74,7 +74,10 @@ const Footer: React.FC = () => {
           <div className="flex flex-col gap-y-4">
             <span className="text-sm font-semibold">FOLLOW US</span>
             <div className="flex flex-col gap-y-2">
-              <Link to="#" className="flex items-center gap-x-1">
+              <Link
+                to="https://www.facebook.com/benjoseph.nunez"
+                className="flex items-center gap-x-1"
+              >
                 <FaFacebook />
                 <span className="text-xs">Facebook</span>
               </Link>

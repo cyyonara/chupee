@@ -1,18 +1,10 @@
 import { Request, Response } from "express";
 import { pool } from "../server";
-import { RowDataPacket } from "mysql2";
+import { IUser } from "../types/I_User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 interface I_Signup {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-}
-
-interface IUser extends RowDataPacket {
-  id: number;
   firstName: string;
   lastName: string;
   username: string;
@@ -46,7 +38,7 @@ export const signup = async (req: Request, res: Response) => {
     const [result3] = await pool.query(sql3, [newUserId]);
     const userCredentials = result3 as typeof users;
 
-    const token = jwt.sign({ _id: userCredentials[0].id }, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ _id: userCredentials[0].user_id }, process.env.JWT_SECRET as string, {
       expiresIn: "60d",
     });
 
@@ -85,9 +77,10 @@ export const login = async (req: Request, res: Response) => {
     if (!isValidPassword) {
       res.status(401).json({ message: "Invalid username or password" });
     } else {
-      const token = jwt.sign({ _id: users[0].id }, process.env.JWT_SECRET as string, {
+      const token = jwt.sign({ _id: users[0].user_id }, process.env.JWT_SECRET as string, {
         expiresIn: "60d",
       });
+
       res
         .cookie("chupee_token", token, { maxAge: 1000 * 60 * 60 * 24 * 60, httpOnly: true })
         .status(201)
