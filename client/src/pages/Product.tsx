@@ -13,17 +13,29 @@ import { IoIosAdd } from "react-icons/io";
 import { RiSubtractLine } from "react-icons/ri";
 import { BsCartPlus } from "react-icons/bs";
 import { useAuthStore } from "../store/authStore";
+import { useAddToCart } from "../hooks/useAddToCart";
+import { toast } from "sonner";
 
 const Product: React.FC = () => {
+  const [showImagePreview, setShowImagePreview] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
   const { id } = useParams();
-  const navigate: NavigateFunction = useNavigate();
   const { data, isLoading, isSuccess } = useProduct(parseInt(id as string));
   const { auth } = useAuthStore();
-  const [quantity, setQuantity] = useState<number>(1);
-  const [showImagePreview, setShowImagePreview] = useState<boolean>(false);
+  const { mutate } = useAddToCart();
+  const navigate: NavigateFunction = useNavigate();
 
   const handleAddToCart = (): void => {
     if (!auth) navigate("/login");
+    mutate(
+      { productId: data!.data.product_id, quantity },
+      {
+        onSuccess: () => {
+          toast.success("Item has been added to your cart!", { position: "top-right" });
+          setQuantity(1);
+        },
+      }
+    );
   };
 
   const handleCheckout = (): void => {
@@ -116,7 +128,7 @@ const Product: React.FC = () => {
                   </div>
                   <div className="flex gap-x-5">
                     <button
-                      className="flex items-center gap-x-2 px-5 py-2 border border-green-600 text-green-600 bg-green-50/60"
+                      className="flex items-center gap-x-2 px-5 py-2 border border-green-600 text-green-600 bg-green-50/60 duration-150 hover:bg-green-50"
                       disabled={data.data.quantity === 0}
                       onClick={handleAddToCart}
                     >

@@ -43,6 +43,13 @@ export const checkoutOrder = async (req: I_Request, res: Response) => {
       const sql3 = "INSERT INTO sold_products(product_id,order_id,quantity) VALUES(?,?,?)";
       pool.query(sql3, [productId, orderId, quantity]);
     });
+
+    const deletedCartRowId = products.map((product) => product.productId);
+    const sql4 = `DELETE FROM cart WHERE customer_id = ? AND product_id IN (${deletedCartRowId.join(
+      ","
+    )})`;
+
+    pool.query(sql4, [req.user?.userId]);
     res.status(201).json({ success: true });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });

@@ -18,7 +18,7 @@ interface ICheckedOutProduct {
 
 const Checkout: React.FC = () => {
   const checkedOutProducts: ICheckedOutProduct[] = [];
-  const { auth } = useAuthStore();
+  const { auth, clearCredential } = useAuthStore();
   const [searchParams] = useSearchParams();
   const { mutate } = useCheckout();
   const productString = searchParams.get("products");
@@ -51,7 +51,12 @@ const Checkout: React.FC = () => {
               resolve("Order successfully placed!");
               navigate("/");
             },
-            onError: (err) => reject(err.response?.data.message),
+            onError: (err) => {
+              reject(err.response?.data.message);
+              if (err.response?.status === 401) {
+                clearCredential();
+              }
+            },
           }
         );
       }),
@@ -111,7 +116,7 @@ const Checkout: React.FC = () => {
                       <td className="p-7 text-center text-gray-800 font-semibold">
                         {currenyFormatter(parseInt(productInfo?.price as string))}
                       </td>
-                      <td className="p-7 text-center text-gray-800">{`${product.quantity}x`}</td>
+                      <td className="p-7 text-center text-gray-800">{`${product.quantity}`}</td>
                       <td className="p-7 text-end text-gray-800 font-semibold">
                         {currenyFormatter(
                           parseInt(productInfo?.price as string) * product.quantity

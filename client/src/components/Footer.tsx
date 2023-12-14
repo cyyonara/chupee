@@ -8,7 +8,7 @@ import { memo } from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex border-t-[3px] border-green-600 text-c-black px-4 sm:px-8 md:px-12">
+    <footer className="flex border-t-[3px] border-green-600 bg-white text-c-black px-4 sm:px-8 md:px-12">
       <div className="m-auto max-w-[1400px] flex flex-col flex-1 gap-y-10 mt-8">
         <div className="flex flex-col md:flex-row gap-y-16 justify-between">
           <div className="flex flex-col gap-y-4">
@@ -37,8 +37,8 @@ const Footer: React.FC = () => {
           <div className="flex flex-col gap-y-4">
             <span className="text-sm font-semibold">ABOUT CHUPEE</span>
             <div className="flex flex-col gap-y-1">
-              <Link to="#" className="text-xs">
-                About Us
+              <Link to="/about-us" className="text-xs">
+                About us
               </Link>
               <Link to="#" className="text-xs">
                 Chupee Blog

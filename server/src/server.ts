@@ -8,6 +8,7 @@ import { notFound } from "./middlewares/errorHandler";
 import authRouter from "./routes/authRouter";
 import productRouter from "./routes/productRouter";
 import checkoutRouter from "./routes/checkoutRouter";
+import cartRouter from "./routes/cartRouter";
 import mysql from "mysql2";
 
 dotenv.config();
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/checkout", checkoutRouter);
+app.use("/api/cart", cartRouter);
 
 app.use(notFound);
 
